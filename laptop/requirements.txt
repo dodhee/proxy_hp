@@ -1,0 +1,10 @@
+requests
+python-dotenv
+psutil
+pyserial
+python-nmap
+schedule
+python-crontab
+websocket-client
+playwright
+selenium

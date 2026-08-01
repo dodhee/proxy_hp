@@ -11,7 +11,7 @@ LOG_DIR.mkdir(exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[logging.FileHandler(LOG_DIR / 'airplane.log'), logging.StreamHandler()]
+    handlers=[logging.FileHandler('laptop/airplane.log'), logging.StreamHandler()]
 )
 logger = logging.getLogger('airplane_manager')
 

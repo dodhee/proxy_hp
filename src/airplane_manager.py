@@ -2,6 +2,7 @@ import subprocess
 import time
 import logging
 import json
+import sys
 from typing import Dict, Optional
 from pathlib import Path
 
@@ -87,8 +88,12 @@ class AirplaneManager:
             return self.toggle_airplane_mode(False)
         return False
 
-    def run(self):
+    def run(self, mode="loop"):
         """Main rotation loop"""
+        if mode == "rotate":
+            self.rotate_ip()
+            return
+        
         logger.info(f"Airplane Manager started. Rotating every {self.rotation_interval} seconds")
         
         while True:
@@ -103,6 +108,10 @@ class AirplaneManager:
                 time.sleep(5)
 
 if __name__ == "__main__":
+    mode = "loop"
+    if len(sys.argv) > 1 and sys.argv[1] == 'rotate':
+        mode = "rotate"
+    
     # Load config
     try:
         with open(LOG_DIR / 'config.json', 'r') as f:
@@ -111,4 +120,4 @@ if __name__ == "__main__":
         config = {"rotation_interval": 4}
     
     manager = AirplaneManager(config)
-    manager.run()
+    manager.run(mode=mode)

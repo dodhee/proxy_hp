@@ -6,7 +6,7 @@ import os
 from typing import Dict, Optional
 
 log_dir = os.path.dirname(os.path.abspath(__file__))
-log_file = 'src/usb_tethering.log'
+log_file = 'logs/usb_tethering.log'
 
 logging.basicConfig(
     level=logging.INFO,

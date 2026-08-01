@@ -20,7 +20,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("src/proxy_hp.log"),
+        logging.FileHandler("logs/proxy_hp.log"),
         logging.StreamHandler()
     ]
 )

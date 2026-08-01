@@ -7,7 +7,7 @@ from typing import Dict, Optional
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[logging.FileHandler('src/rotation.log'), logging.StreamHandler()]
+    handlers=[logging.FileHandler('logs/rotation.log'), logging.StreamHandler()]
 )
 logger = logging.getLogger('rotation_scheduler')
 

@@ -13,7 +13,7 @@ class ProxySystem:
         self.logger = logging.getLogger(__name__)
 
     def load_config(self):
-        config_path = Path("laptop/config.json")
+        config_path = Path("src/config.json")
         if not config_path.exists():
             self.logger.error("config.json tidak ditemukan!")
             raise FileNotFoundError("config.json tidak ditemukan")

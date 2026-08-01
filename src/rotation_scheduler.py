@@ -7,16 +7,16 @@ from typing import Dict, Optional
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[logging.FileHandler('laptop/rotation.log'), logging.StreamHandler()]
+    handlers=[logging.FileHandler('src/rotation.log'), logging.StreamHandler()]
 )
 logger = logging.getLogger('rotation_scheduler')
 
 class RotationScheduler:
     def __init__(self, config: Dict):
         self.config = config
-        self.airplane_path = 'laptop/airplane_manager.py'
-        self.tethering_path = 'laptop/usb_tethering.py'
-        self.proxy_path = 'laptop/proxy_system.py'
+        self.airplane_path = 'src/airplane_manager.py'
+        self.tethering_path = 'src/usb_tethering.py'
+        self.proxy_path = 'src/proxy_system.py'
         self.rotation_interval = 4  # seconds - rotate setiap 4 detik (3-5 request)
 
     def start_airplane_manager(self) -> bool:
@@ -78,7 +78,7 @@ class RotationScheduler:
 if __name__ == "__main__":
     # Load config
     try:
-        with open('laptop/config.json', 'r') as f:
+        with open('src/config.json', 'r') as f:
             config = json.load(f)
     except:
         config = {"rotation_interval": 4}

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Main Script: Proxy HP Bridge - Laptop Controller
-Jalankan: python laptop/main.py
+Jalankan: python src/main.py
 """
 
 import logging
@@ -20,7 +20,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("laptop/proxy_hp.log"),
+        logging.FileHandler("src/proxy_hp.log"),
         logging.StreamHandler()
     ]
 )
@@ -35,7 +35,7 @@ class ProxyHPBridge:
         self.rotation_scheduler = RotationScheduler(self.airplane_manager, self.proxy_system)
 
     def load_config(self):
-        config_path = Path("laptop/config.json")
+        config_path = Path("src/config.json")
         with open(config_path, 'r') as f:
             return json.load(f)
 

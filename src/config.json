@@ -1,3 +1,5 @@
 {
-  "rotation_interval": 4
+  "rotation_interval": 4,
+  "default_provider": "telkomsel",
+  "proxy_port": 8080
 }

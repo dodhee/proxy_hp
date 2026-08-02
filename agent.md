@@ -16,7 +16,7 @@
 | 5    | Implementasi usb_tethering.py | ✅ | |
 | 6    | Implementasi main.py & proxy_system.py | ✅ | Selesai & Terverifikasi |
 | 7    | Implementasi rotation_scheduler.py | ✅ | Selesai & Terverifikasi |
-| 8    | Integrasi provider Telkomsel/Smartfren | 🔄 | providers.json ada di root, runtime belum pakai |
+| 8    | Integrasi provider Telkomsel/Smartfren | ✅ | providers.json dipakai runtime |
 | 9    | Perbaikan wiring runtime antar modul | ✅ | API modul disinkronkan dan diverifikasi |
 
 ## Keputusan Arsitektur
@@ -29,5 +29,4 @@
 - Verifikasi bebas error sebelum lanjut fase berikutnya.
 
 ## Masalah yang Belum Terselesaikan
-- Provider Telkomsel/Smartfren masih statis di `providers/providers.json`; belum dipakai runtime secara nyata.
-- Perlu test lanjutan untuk alur ADB dan proxy di mesin nyata.
+- Perlu test lapangan di mesin nyata untuk ADB dan proxy Windows.

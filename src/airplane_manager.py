@@ -1,5 +1,6 @@
 import json
 import logging
+import shutil
 import subprocess
 import sys
 import time
@@ -32,10 +33,19 @@ class AirplaneManager:
         return {"rotation_interval": 4}
 
     def _find_adb(self) -> str:
+        # Use shutil.which to find adb in PATH, fallback to common locations
+        adb_path = shutil.which('adb')
+        if adb_path:
+            return adb_path
+        
+        # Common platform-tools locations (cross-platform)
         adb_paths = [
-            r"C:\Users\dody\AppData\Local\Android\Sdk\platform-tools\adb.exe",
             r"C:\Program Files\Android\platform-tools\adb.exe",
-            "adb",
+            r"C:\Program Files (x86)\Android\platform-tools\adb.exe",
+            "/opt/android-sdk/platform-tools/adb",
+            "/usr/local/android-sdk/platform-tools/adb",
+            str(Path.home() / "Android" / "Sdk" / "platform-tools" / "adb"),
+            str(Path.home() / "Library" / "Android" / "sdk" / "platform-tools" / "adb"),
         ]
         for path in adb_paths:
             try:

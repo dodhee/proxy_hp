@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Main Script: Proxy HP Bridge - Laptop Controller
-Jalankan: python src/main.py
+Jalankan: python -m src.main
 """
 
 import json
@@ -8,10 +8,10 @@ import logging
 import time
 from pathlib import Path
 
-from airplane_manager import AirplaneManager
-from proxy_system import ProxySystem
-from rotation_scheduler import RotationScheduler
-from usb_tethering import USBTetheringManager
+from src.airplane_manager import AirplaneManager
+from src.proxy_system import ProxySystem
+from src.rotation_scheduler import RotationScheduler
+from src.usb_tethering import USBTetheringManager
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOG_DIR = BASE_DIR / "logs"

@@ -1,0 +1,30 @@
+{
+  "providers": {
+    "telkomsel": {
+      "name": "Telkomsel",
+      "type": "telkomsel",
+      "endpoint": "https://proxy-api.telkomsel.com/v1/get-ip",
+      "method": "GET",
+      "headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+      },
+      "params": {
+        "device": "android",
+        "app_version": "2.0.0"
+      }
+    },
+    "smartfren": {
+      "name": "Smartfren",
+      "type": "smartfren",
+      "endpoint": "https://proxy-api.smartfren.com/v1/get-ip",
+      "method": "GET",
+      "headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+      },
+      "params": {
+        "device": "android",
+        "app_version": "2.0.0"
+      }
+    }
+  }
+}

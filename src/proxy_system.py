@@ -1,6 +1,5 @@
 import json
 import logging
-import subprocess
 import winreg
 from pathlib import Path
 from typing import Dict, Optional
@@ -47,7 +46,7 @@ class ProxySystem:
             with winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER) as hkey:
                 with winreg.OpenKey(hkey, reg_path, 0, winreg.KEY_WRITE) as key:
                     winreg.SetValueEx(key, "ProxyEnable", 0, winreg.REG_DWORD, 1)
-                    winreg.SetValueEx(key, "ProxyServer", 0, winreg.REG_SZ, f"127.0.0.1:{proxy_port}")
+                    winreg.SetValueEx(key, "ProxyServer", 0, winreg.REG_SZ, f"{ip}:{proxy_port}")
                     winreg.SetValueEx(key, "ProxyOverride", 0, winreg.REG_SZ, "*")
             self.logger.info("Proxy di-set ke %s:%s", ip, proxy_port)
             return True
@@ -66,13 +65,3 @@ class ProxySystem:
         except Exception as exc:
             self.logger.error("Gagal nonaktifkan proxy: %s", exc)
             return False
-
-    def get_current_ip(self) -> str:
-        try:
-            result = subprocess.run(["ipconfig", "/all"], capture_output=True, text=True, timeout=5)
-            for line in result.stdout.splitlines():
-                if "IPv4 Address" in line:
-                    return line.split(":", 1)[1].strip()
-            return "unknown"
-        except Exception:
-            return "unknown"

@@ -1,5 +1,6 @@
 import json
 import logging
+import shutil
 import subprocess
 import time
 from pathlib import Path
@@ -30,10 +31,14 @@ class USBTetheringManager:
         return {}
 
     def _find_adb(self) -> str:
+        # Use shutil.which to find adb in PATH, fallback to common locations
+        adb_path = shutil.which('adb')
+        if adb_path:
+            return adb_path
+        
         adb_paths = [
             r"C:\Users\dody\AppData\Local\Android\Sdk\platform-tools\adb.exe",
             r"C:\Program Files\Android\platform-tools\adb.exe",
-            'adb',
         ]
         for path in adb_paths:
             try:
@@ -95,7 +100,26 @@ class USBTetheringManager:
             return False
 
     def get_current_ip(self) -> str:
-        return self.config.get('current_ip', 'unknown')
+        try:
+            result = subprocess.run(["ipconfig"], capture_output=True, text=True, timeout=5)
+            for line in result.stdout.splitlines():
+                line = line.strip()
+                if "IPv4 Address" in line or "IPv4" in line:
+                    parts = line.split(":")
+                    if len(parts) >= 2:
+                        ip = parts[-1].strip()
+                        if ip and not ip.startswith("169.254") and not ip.startswith("127."):
+                            return ip
+            # fallback to netsh
+            result = subprocess.run(["netsh", "interface", "ip", "show", "addresses"], capture_output=True, text=True, timeout=5)
+            for line in result.stdout.splitlines():
+                if "IP Address" in line and "Preferred" in line:
+                    ip = line.split()[-1]
+                    if ip and not ip.startswith("169.254") and not ip.startswith("127."):
+                        return ip
+            return "unknown"
+        except Exception:
+            return "unknown"
 
     def run(self) -> None:
         logger.info('USB Tethering Manager started')

@@ -1,6 +1,6 @@
-# MEGA PROMPT: Aplikasi Proxy Residential HP Bridge (Pure Python - Laptop Only)
+# MEGA PROMPT: Aplikasi Proxy Residential HP Bridge (Pure Python)
 
-## Kontekst Proyek
+## Konteks Proyek
 Proyek ini adalah aplikasi proxy residential yang aman dan sulit terdeteksi. User menggunakan HP (Telkomsel atau Smartfren) sebagai jembatan IP. Laptop mengatur HP untuk mendapatkan IP residential baru dengan mengubah airplane mode on/off otomatis setiap 3-5 request. HP connect ke laptop via USB tethering, lalu laptop set system proxy ke IP dari HP.
 
 Semua kode dijalankan dari laptop. Tidak ada perubahan di HP kecuali tethering.
@@ -24,7 +24,7 @@ Semua kode dijalankan dari laptop. Tidak ada perubahan di HP kecuali tethering.
   5. Lanjutkan request dengan proxy aktif
 
 ## Konvensi Kode (WAJIB)
-- Semua kode di `laptop/`
+- Semua kode di `src/`
 - Gunakan Python 3.11+
 - Gunakan `adb` untuk komunikasi dengan HP
 - Gunakan `mitmproxy` atau `requests` untuk proxy management
@@ -36,14 +36,15 @@ Semua kode dijalankan dari laptop. Tidak ada perubahan di HP kecuali tethering.
 ## Struktur Folder (Sudah ada)
 ```
 proxy_hp/
-└── laptop/
+└── src/
     ├── main.py
     ├── usb_tethering.py
     ├── airplane_manager.py
     ├── proxy_system.py
     ├── rotation_scheduler.py
     ├── requirements.txt
-    └── config.json
+    ├── config.json
+    └── structure.md
 ```
 
 ## Acceptance Criteria
@@ -62,11 +63,10 @@ Fase 4: Pembuatan Mega Prompt & Alur Kerja (ini sudah dibuat)
 Fase 5: Setup proyek & folder structure (sudah ada)
 Fase 6: Implementasi airplane_manager.py
 Fase 7: Implementasi usb_tethering.py
-Fase 8: Implementasi proxy_system.py
-Fase 9: Implementasi rotation_scheduler.py
-Fase 10: Integrasi provider Telkomsel/Smartfren
-Fase 11: Test & Verification
-Fase 12: Git commit & final review
+Fase 8: Provider runtime integration
+Fase 9: Wiring runtime sync
+Fase 10: Test & Verification
+Fase 11: Git commit & final review
 
-## Mega Prompt untuk Fase 6-12 (nanti akan dipakai)
+## Mega Prompt untuk Fase 6-11 (nanti akan dipakai)
 "Gunakan mega prompt ini untuk implementasi fase-fase berikutnya. Buat kode sesuai spesifikasi, gunakan konvensi penamaan yang sudah ditentukan, dan verifikasi sebelum lanjut fase berikutnya."

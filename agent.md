@@ -15,15 +15,19 @@
 | 4    | Implementasi airplane_manager.py | ✅ | |
 | 5    | Implementasi usb_tethering.py | ✅ | |
 | 6    | Implementasi main.py & proxy_system.py | ✅ | Selesai & Terverifikasi |
-| 7    | Implementasi rotation_scheduler.py | 🔄 | Akan dikerjakan |
+| 7    | Implementasi rotation_scheduler.py | ✅ | Selesai & Terverifikasi |
+| 8    | Integrasi provider Telkomsel/Smartfren | 🔄 | providers.json ada di root, runtime belum pakai |
+| 9    | Perbaikan wiring runtime antar modul | ✅ | API modul disinkronkan dan diverifikasi |
 
 ## Keputusan Arsitektur
-- **Pure Laptop Architecture**: Laptop kontrol HP via ADB. HP bridge IP. 
+- **Pure Laptop Architecture**: Laptop kontrol HP via ADB. HP bridge IP.
+- Folder aktif sekarang: `src/` untuk kode, `providers/` untuk konfigurasi provider, `logs/` untuk log.
 
 ## Catatan Penting
-- Semua kode di `laptop/`.
+- Semua kode Python di `src/`.
 - Git commit setelah setiap fase selesai.
 - Verifikasi bebas error sebelum lanjut fase berikutnya.
 
 ## Masalah yang Belum Terselesaikan
-- Integrasi provider Telkomsel/Smartfren via ADB/API.
+- Provider Telkomsel/Smartfren masih statis di `providers/providers.json`; belum dipakai runtime secara nyata.
+- Perlu test lanjutan untuk alur ADB dan proxy di mesin nyata.

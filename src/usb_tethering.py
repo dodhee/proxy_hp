@@ -1,138 +1,122 @@
+import json
+import logging
 import subprocess
 import time
-import logging
-import json
-import os
+from pathlib import Path
 from typing import Dict, Optional
 
-log_dir = os.path.dirname(os.path.abspath(__file__))
-log_file = 'logs/usb_tethering.log'
+BASE_DIR = Path(__file__).resolve().parent.parent
+LOG_DIR = BASE_DIR / "logs"
+LOG_DIR.mkdir(exist_ok=True)
+CONFIG_PATH = BASE_DIR / "src" / "config.json"
 
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[logging.FileHandler(log_file), logging.StreamHandler()]
+    handlers=[logging.FileHandler(LOG_DIR / 'usb_tethering.log'), logging.StreamHandler()]
 )
 logger = logging.getLogger('usb_tethering')
 
+
 class USBTetheringManager:
-    def __init__(self, config: Dict):
-        self.config = config
+    def __init__(self, config: Optional[Dict] = None):
+        self.config = config or self.load_config()
         self.adb_path = self._find_adb()
         self.device_id = self._find_device()
 
+    def load_config(self) -> Dict:
+        if CONFIG_PATH.exists():
+            return json.loads(CONFIG_PATH.read_text(encoding='utf-8'))
+        return {}
+
     def _find_adb(self) -> str:
-        """Cari adb executable"""
         adb_paths = [
             r"C:\Users\dody\AppData\Local\Android\Sdk\platform-tools\adb.exe",
             r"C:\Program Files\Android\platform-tools\adb.exe",
-            "adb"
+            'adb',
         ]
         for path in adb_paths:
             try:
-                subprocess.run([path, "devices"], capture_output=True, timeout=2)
+                subprocess.run([path, 'devices'], capture_output=True, timeout=2)
                 return path
-            except:
+            except Exception:
                 continue
-        raise FileNotFoundError("ADB not found. Install Android SDK platform-tools.")
+        raise FileNotFoundError('ADB not found. Install Android SDK platform-tools.')
 
     def _find_device(self) -> Optional[str]:
-        """Cari device ID HP yang connected"""
         try:
-            result = subprocess.run(
-                [self.adb_path, "devices"],
-                capture_output=True,
-                text=True,
-                timeout=5
-            )
-            lines = result.stdout.strip().split('\n')
-            for line in lines[1:]:
-                if 'device' in line and 'emulator' not in line:
-                    return line.split('\t')[0]
+            result = subprocess.run([self.adb_path, 'devices'], capture_output=True, text=True, timeout=5)
+            for line in result.stdout.strip().splitlines()[1:]:
+                if '\tdevice' in line and 'emulator' not in line:
+                    return line.split('\t', 1)[0].strip()
             return None
-        except Exception as e:
-            logger.error(f"Failed to find device: {e}")
+        except Exception as exc:
+            logger.error('Failed to find device: %s', exc)
             return None
+
+    def is_ready(self) -> bool:
+        return bool(self.device_id)
 
     def enable_tethering(self) -> bool:
-        """Enable USB Tethering"""
         if not self.device_id:
-            logger.error("No device connected")
+            logger.error('No device connected')
             return False
-
         try:
-            command = [self.adb_path, "shell", "svc", "usb", "tether"]
-            subprocess.run(command, check=True, timeout=10)
+            subprocess.run([self.adb_path, 'shell', 'svc', 'usb', 'tether'], check=True, timeout=10)
             time.sleep(3)
-            logger.info("USB Tethering enabled")
+            logger.info('USB Tethering enabled')
             return True
-        except Exception as e:
-            logger.error(f"Failed to enable tethering: {e}")
+        except Exception as exc:
+            logger.error('Failed to enable tethering: %s', exc)
             return False
 
     def disable_tethering(self) -> bool:
-        """Disable USB Tethering"""
         if not self.device_id:
-            logger.error("No device connected")
+            logger.error('No device connected')
             return False
-
         try:
-            command = [self.adb_path, "shell", "svc", "usb", "tether"]
-            subprocess.run(command, check=True, timeout=10)
-            logger.info("USB Tethering disabled")
+            subprocess.run([self.adb_path, 'shell', 'svc', 'usb', 'tether'], check=True, timeout=10)
+            logger.info('USB Tethering disabled')
             return True
-        except Exception as e:
-            logger.error(f"Failed to disable tethering: {e}")
+        except Exception as exc:
+            logger.error('Failed to disable tethering: %s', exc)
             return False
 
     def toggle_tethering(self) -> bool:
-        """Toggle USB Tethering"""
         if not self.device_id:
-            logger.error("No device connected")
+            logger.error('No device connected')
             return False
-
         try:
             self.disable_tethering()
             time.sleep(1)
-            success = self.enable_tethering()
-            if success:
-                logger.info("USB Tethering toggled")
-                return True
-            return False
-        except Exception as e:
-            logger.error(f"Failed to toggle tethering: {e}")
+            return self.enable_tethering()
+        except Exception as exc:
+            logger.error('Failed to toggle tethering: %s', exc)
             return False
 
-    def run(self):
-        """Main tethering management"""
-        logger.info(f"USB Tethering Manager started")
-        
+    def get_current_ip(self) -> str:
+        return self.config.get('current_ip', 'unknown')
+
+    def run(self) -> None:
+        logger.info('USB Tethering Manager started')
         while True:
             try:
                 if not self.device_id:
-                    logger.info("Waiting for HP to connect via USB...")
+                    logger.info('Waiting for HP to connect via USB...')
                     time.sleep(5)
                     self.device_id = self._find_device()
                     continue
-                
                 if time.time() % 30 < 1:
                     self.toggle_tethering()
-                
                 time.sleep(1)
             except KeyboardInterrupt:
-                logger.info("USB Tethering Manager stopped by user")
+                logger.info('USB Tethering Manager stopped by user')
                 break
-            except Exception as e:
-                logger.error(f"Error in tethering loop: {e}")
+            except Exception as exc:
+                logger.error('Error in tethering loop: %s', exc)
                 time.sleep(5)
-if __name__ == "__main__":
-    # Load config
-    config_path = os.path.join(log_dir, 'config.json')
-    try:
-        with open(config_path, 'r') as f:
-            config = json.load(f)
-    except:
-        config = {}
-    
-    manager = USBTetheringManager(config)
+
+
+if __name__ == '__main__':
+    manager = USBTetheringManager()
     manager.run()

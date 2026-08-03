@@ -20,6 +20,7 @@
 | 9    | Perbaikan wiring runtime antar modul | ✅ | API modul disinkronkan dan diverifikasi |
 | 10   | Test & Verification | ✅ | 9 unit tests lulus |
 | 11   | Git commit & final review | ✅ | .gitignore, claude.md, test added |
+| 12   | Cleanup & konsistensi struktur | ✅ | Hapus LICENSE folder, src/structure.md, README folder |
 
 ## Keputusan Arsitektur
 - **Pure Laptop Architecture**: Laptop kontrol HP via ADB. HP bridge IP.

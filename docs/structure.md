@@ -2,35 +2,27 @@
 
 ```
 proxy_hp/
-├── src/                     # Semua kode utama (pure Python)
-│   ├── main.py                 # Script utama (detect HP, trigger airplane mode, set proxy)
-│   ├── usb_tethering.py        # Manage USB tethering ke HP
-│   ├── airplane_manager.py     # Trigger airplane mode on/off otomatis
-│   ├── proxy_system.py         # Set system proxy ke IP dari HP
-│   ├── rotation_scheduler.py   # Scheduler rotate IP setiap 3-5 request
-│   ├── requirements.txt        # Dependencies
-│   ├── config.json             # Konfigurasi provider Telkomsel/Smartfren
-│   └── structure.md            # Dokumentasi struktur folder
-│
-├── providers/                  # Konfigurasi provider
-│   └── providers.json          # Semua provider support
-│
-├── docs/                       # Dokumentasi
-│   └── tests/                  # Test dokumentasi
-│
-├── logs/                       # Log files
-│   ├── airplane.log
-│   ├── proxy_hp.log
-│   ├── rotation.log
-│   └── usb_tethering.log
-│
-├── tests/                      # Test cases
-│   ├── integration/
-│   └── usb_tethering/
-│
-├── README
+├── docs/                  # Dokumentasi
+│   ├── structure.md
+│   └── mega_prompt.md
+├── logs/                   # Log files
+├── providers/              # Provider config
+│   └── providers.json
+├── src/                    # Kode utama
+│   ├── __init__.py
+│   ├── airplane_manager.py
+│   ├── config.json
+│   ├── main.py
+│   ├── proxy_system.py
+│   ├── rotation_scheduler.py
+│   ├── requirements.txt
+│   └── usb_tethering.py
+├── tests/                  # Unit tests
+│   └── test_unit.py
+├── README.md
 ├── LICENSE
-└── agent.md
+├── agent.md
+└── .gitignore
 ```
 
 ## Penjelasan Singkat

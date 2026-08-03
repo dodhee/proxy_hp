@@ -38,7 +38,4 @@ dist/
 *.local.json
 
 # Internal files (not for GitHub)
-agent.md
-claude.md
-IDEA.md
 docs/

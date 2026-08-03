@@ -18,8 +18,8 @@
 | 7    | Implementasi rotation_scheduler.py | ✅ | Selesai & Terverifikasi |
 | 8    | Integrasi provider Telkomsel/Smartfren | ✅ | providers.json dipakai runtime |
 | 9    | Perbaikan wiring runtime antar modul | ✅ | API modul disinkronkan dan diverifikasi |
-| 10   | (Reserved) | | |
-| 11   | Test & verification untuk proxy_hp | ✅ | 9 unit tests lulus: config load, providers load, ProxySystem.set_proxy (winreg mock), USBTetheringManager.get_current_ip (subprocess mock), AirplaneManager._find_adb (shutil.which fallback), RotationScheduler (injected airplane_manager, no subprocess) |
+| 10   | Test & Verification | ✅ | 9 unit tests lulus |
+| 11   | Git commit & final review | ✅ | .gitignore, claude.md, test added |
 
 ## Keputusan Arsitektur
 - **Pure Laptop Architecture**: Laptop kontrol HP via ADB. HP bridge IP.
@@ -33,3 +33,4 @@
 
 ## Masalah yang Belum Terselesaikan
 - Perlu test lapangan di mesin nyata untuk ADB dan proxy Windows.
+- Integrasi provider Telkomsel/Smartfren API masih statis (perlu endpoint nyata).
